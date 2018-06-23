@@ -1,0 +1,28 @@
+print "Введите число: "
+readn ebx  ; eax для возврата, ebx -- параметр функции
+call fib  ; самая внешняя функция f(n)
+print eax 
+end
+label fib:
+mov edx ebx  ; копируем ebx, чтобы не мучить его лишние разы
+subn edx 1
+jlz base0 edx  ; n = 0
+subn edx 2  ; n = 1 или 2
+jlz base12 edx
+push ebx  ; сохраним ebx на будущее. Вообще говоря, оно не нужно :)
+subn ebx 2
+call fib  ; f(n-2)
+mov ecx eax
+pop ebx
+subn ebx 1
+push ecx
+call fib  ; f(n-1)
+pop ecx
+add eax ecx  ; ret = f(n-1) + f(n-2)
+ret
+label base0:
+movn eax 0  ; f(0)
+ret
+label base12:
+movn eax 1  ; f(1) f(2)
+ret
